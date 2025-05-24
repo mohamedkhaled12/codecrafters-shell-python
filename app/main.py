@@ -11,6 +11,7 @@ def main():
             sys.stdout.write("$ ")
             command = input()
             print(f"{command}: command not found")
+            print("exit 0")
 
         except EOFError:
             print()
