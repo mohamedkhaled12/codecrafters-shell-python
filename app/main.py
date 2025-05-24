@@ -10,12 +10,12 @@ def main():
         try:
             sys.stdout.write("$ ")
             command = input()
-            print(f"{command}: command not found")
-            print("exit 0")
-
         except EOFError:
             print()
             break
+        if command.strip() == "exit 0":
+            sys.exit(0)
+        print(f"{command}: command not found")
 
 
 if __name__ == "__main__":
