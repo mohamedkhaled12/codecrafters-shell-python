@@ -1,31 +1,21 @@
 import sys
-
+BUILTINS = {
+    "exit": lambda code=0, *_: sys.exit(int(code)),
+    "echo": lambda *args: print(" ".join(args)),
+    "type": lambda cmd, *_: print(f"{cmd} is a shell builtin")
+    if cmd in BUILTINS
+    else print(f"{cmd}: not found"),
+}
 def main():
     while True:
-        try:
-            sys.stdout.write("$ ")
-            command = input()
-
-            if command.strip() == "exit 0":
-                sys.exit(0)
-            
-            if command == "type":
-                print(f"{command}: command not found")
-
-            if ' ' in command:
-                first_part, rest_to_be_handled = command.split(' ', 1)
-                if first_part == 'echo':
-                    print(rest_to_be_handled)
-                    continue  # Skip printing "command not found"
-                if first_part == 'type':
-                    print(f"{rest_to_be_handled} is a shell builtin")
-                
-
-            print(f"{command}: command not found")
-
-        except EOFError:
-            print()
-            break
-
+        sys.stdout.write("$ ")
+        sys.stdout.flush()
+        usr_input = input().split()
+        cmd = usr_input[0]
+        args = usr_input[1:]
+        if cmd in BUILTINS:
+            BUILTINS[cmd](*args)
+        else:
+            print(f"{cmd}: command not found")
 if __name__ == "__main__":
     main()
